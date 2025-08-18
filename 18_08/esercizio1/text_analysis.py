@@ -6,6 +6,14 @@ def conta_righe(testo):
     righe = testo.split('\n')
     return len(righe)
 
+def parole_frequenti(testo):
+    parole = testo.split()
+    freq = {}
+    for parola in parole:
+        freq[parola] = freq.get(parola, 0) + 1
+    frequenze = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+    return frequenze[:10]
+
 
 if __name__ == "__main__":
 
@@ -16,3 +24,4 @@ if __name__ == "__main__":
 
     print("Numero di parole:", conta_parole(content))
     print("Numero di righe:", conta_righe(content))
+    print("Parole frequenti:", parole_frequenti(content))
