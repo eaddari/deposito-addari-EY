@@ -12,7 +12,7 @@ def parole_frequenti(testo):
     for parola in parole:
         freq[parola] = freq.get(parola, 0) + 1
     frequenze = sorted(freq.items(), key=lambda x: x[1], reverse=True)
-    return frequenze[:10]
+    return frequenze[:5]
 
 
 if __name__ == "__main__":
