@@ -2,6 +2,9 @@ def conta_parole(testo):
     parole = testo.split()
     return len(parole)
 
+def conta_righe(testo):
+    righe = testo.split('\n')
+    return len(righe)
 
 
 if __name__ == "__main__":
@@ -12,3 +15,4 @@ if __name__ == "__main__":
         content = file.read()
 
     print("Numero di parole:", conta_parole(content))
+    print("Numero di righe:", conta_righe(content))
