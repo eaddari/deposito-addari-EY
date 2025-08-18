@@ -1,6 +1,14 @@
-file_path = "misc_files\\testo_10_08.txt"
+def conta_parole(testo):
+    parole = testo.split()
+    return len(parole)
 
-with open(file_path, 'r', encoding='utf-8') as file:
-    content = file.read()
-    print(content)
 
+
+if __name__ == "__main__":
+
+    file_path = "C:\\desktopnoonedrive\\Ai Academy\\deposito-addari-EY\\18_08\\esercizio1\\misc_files\\testo_18_08.txt"
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    print("Numero di parole:", conta_parole(content))
