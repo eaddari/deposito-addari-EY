@@ -1,3 +1,5 @@
+import string
+
 def conta_parole(testo):
     parole = testo.split()
     return len(parole)
@@ -22,6 +24,8 @@ if __name__ == "__main__":
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
+            content = content.lower()
+            content = content.translate(str.maketrans("", "", string.punctuation))
     except FileNotFoundError:
         print("File non trovato.")
 
