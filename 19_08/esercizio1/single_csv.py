@@ -1,30 +1,37 @@
 import pandas as pd
-import glob
-import os
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.tree import plot_tree
+from sklearn.metrics import precision_score, recall_score
+import matplotlib.pyplot as plt
 
-dataset_folder = "C:\\desktopnoonedrive\\Ai Academy\\deposito-addari-EY\\19_08\\esercizio1\\dataset"
-output_folder = "C:\\desktopnoonedrive\\Ai Academy\\deposito-addari-EY\\19_08\\esercizio1\\csvs"
+csv_file = "19_08\\esercizio1\\dataset\\AEP_hourly.csv"
 
-csv_files = glob.glob(os.path.join(dataset_folder, "*.csv"))
+df = pd.read_csv(csv_file, parse_dates=['Datetime'])
 
-for file_path in csv_files:
-	file_name = os.path.splitext(os.path.basename(file_path))[0]
-	df = pd.read_csv(file_path)
-	df['Datetime'] = pd.to_datetime(df['Datetime'])
-	df.set_index('Datetime', inplace=True)
+second_col = df.columns[1]
+df['Consumption'] = df[second_col].apply(lambda x: "High" if x > df[second_col].median() else "Low")
 
-	daily_df = df.resample('D').mean()
+df['hour'] = df['Datetime'].dt.hour
+df['day'] = df['Datetime'].dt.day
+df['month'] = df['Datetime'].dt.month
 
-	consumption_col = daily_df.columns[0]
-	average_daily = daily_df[consumption_col].mean()
-	daily_df['Consumption'] = daily_df[consumption_col].apply(lambda x: 'Alto' if x > average_daily else 'Basso')
-	daily_out = os.path.join(output_folder, f"{file_name}_daily_high_low.csv")
-	daily_df.to_csv(daily_out, index=True)
+X = df[['hour', 'day', 'month']]
+y = df['Consumption']
 
-	weekly_df = df.resample('W').mean()
-	consumption_col = weekly_df.columns[0]
-	average_weekly = weekly_df[consumption_col].mean()
-	weekly_df['Consumption'] = weekly_df[consumption_col].apply(lambda x: 'Alto' if x > average_weekly else 'Basso')
-	weekly_out = os.path.join(output_folder, f"{file_name}_weekly_high_low.csv")
-	weekly_df.to_csv(weekly_out, index=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.8, random_state=42)
 
+tree = DecisionTreeClassifier()
+
+tree.fit(X_train, y_train)
+tree.predict(X_test)
+
+precision = precision_score(y_test, tree.predict(X_test), pos_label="High")
+print(precision)
+
+recall = recall_score(y_test, tree.predict(X_test), pos_label="High")
+print(recall)
+
+plt.figure(figsize=(12, 8))
+plot_tree(tree, feature_names=X.columns, class_names=True)
+plt.show()
