@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder
 
 df = pd.read_csv('19_08/esercizio3/dataset/AirQualityUCI.csv', sep=';', na_values=['NaN', '-200'])
