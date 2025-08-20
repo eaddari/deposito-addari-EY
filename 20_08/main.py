@@ -25,11 +25,10 @@ kmeans = KMeans(n_clusters=5, n_init=10, random_state=42)
 df["Cluster"] = kmeans.fit_predict(df_scaled)
 
 centroidi = kmeans.cluster_centers_
-cmap = ListedColormap(plt.cm.get_cmap('tab10').colors[:kmeans.n_clusters])
+cmap = ListedColormap(colors=['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'], N=kmeans.n_clusters)
 
 plt.figure(figsize=(8, 6))
 plt.scatter(df['Annual Income (k$)'], df['Spending Score (1-100)'], c=df['Cluster'], cmap=cmap)
-plt.colorbar(ticks=range(kmeans.n_clusters), label='Cluster')
 plt.xlabel('Annual Income (k$)')
 plt.ylabel('Spending Score (1-100)')
 for i, center in enumerate(centroidi):
@@ -44,8 +43,7 @@ dbscan = DBSCAN(eps=0.5, min_samples=5)
 df["DBSCAN_Cluster"] = dbscan.fit_predict(df_scaled)
 
 plt.figure(figsize=(8, 6))
-plt.scatter(df['Annual Income (k$)'], df['Spending Score (1-100)'], c=df['DBSCAN_Cluster'], cmap=cmap)
-plt.colorbar(ticks=range(kmeans.n_clusters), label='DBSCAN Cluster')
+plt.scatter(df['Annual Income (k$)'], df['Spending Score (1-100)'], c=df['DBSCAN_Cluster'])
 plt.xlabel('Annual Income (k$)')
 plt.ylabel('Spending Score (1-100)')
 for i, center in enumerate(centroidi):
@@ -89,7 +87,6 @@ scatter = ax.scatter(
     df['Annual Income (k$)'],
     df['Spending Score (1-100)'],
     c=df['DBSCAN_Cluster'],
-    cmap=cmap
 )
 ax.set_xlabel('Age')
 ax.set_ylabel('Annual Income (k$)')
