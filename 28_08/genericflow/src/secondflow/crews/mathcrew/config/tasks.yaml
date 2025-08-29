@@ -1,0 +1,6 @@
+math_task:
+  description: >
+    Solve the following math problem: {problem}
+  expected_output: >
+    The solution to the math problem.
+  agent: math_tool_agent
